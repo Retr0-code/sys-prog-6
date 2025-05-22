@@ -25,11 +25,9 @@ static int thread_search_back(thread_search_t *args)
             if (args->output != NULL)
                 *args->output = index;
 
-            printf("index: %i & value = %i\n", index, args->array[i]);
             return index;
         }
     }
-    puts("not found");
 
     return -1;
 }
@@ -53,7 +51,7 @@ int thread_find_first(int *array, size_t length, size_t depth, int target, int i
         return -1;
     }
 
-    thread_search_t *args = malloc(sizeof(pthread_t) * depth);
+    thread_search_t *args = malloc(sizeof(thread_search_t) * depth);
     if (args == NULL)
     {
         free(output);
@@ -95,7 +93,6 @@ int thread_find_first(int *array, size_t length, size_t depth, int target, int i
     {
         thread_search_t final_args = {output, output, NULL, depth, -1, 1};
         index = thread_search_back(&final_args);
-        printf("%i\n", index);
     }
     else
         index = thread_find_first(output, depth, depth_half, -1, 1);
@@ -114,8 +111,8 @@ int main()
     int array[] = {1, 2, 3, 4, 5, 6, 7, 4, 9, 10, 11, 12, 4, 4, 15};
     size_t length = sizeof(array) / sizeof(int);
     size_t depth = 4;
-    size_t target = 4;
-    size_t first_index = thread_find_first(array, length, depth, target, 0);
+    int target = 4;
+    int first_index = thread_find_first(array, length, depth, target, 0);
 
     printf("First element %i at %i\n", target, first_index);
 
